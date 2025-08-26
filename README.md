@@ -1,12 +1,41 @@
-# React + Vite
+#  Agency.ai Landing Page
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, modern, and fully responsive **agency-style landing page** built using **HTML** and **Tailwind CSS**. Ideal for showcasing digital services, creative agencies, or tech studios with a visually compelling and user-friendly interface.
 
-Currently, two official plugins are available:
+[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://amdadislam01.github.io/agency.ai-landing-page/)  
+[![Source Code](https://img.shields.io/badge/💻_Source_Code-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/amdadislam01/agency.ai-landing-page)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+##  Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+-  Hero section with bold heading and call-to-action (CTA)
+-  Service highlights to display core offerings
+-  “Why Us” or value proposition section for trust and clarity
+-  Testimonials section for social proof
+-  Footer with contact info and social links
+-  Fully responsive across desktop, tablet, and mobile
+-  Built with utility-first Tailwind CSS for rapid and clean styling
+
+---
+
+##  Technologies Used
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=html,tailwindcss" alt="Tech Stack" width="180"/>
+</p>
+
+---
+
+##  Screenshot
+
+> Add your own site screenshot below:
+
+<p align="center">
+  <img src="https://i.postimg.cc/YOUR_SCREENSHOT.png" alt="Agency.ai Landing Page Screenshot" width="800"/>
+</p>
+
+---
+
+##  Project Structure
+
