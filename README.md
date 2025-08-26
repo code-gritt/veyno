@@ -22,7 +22,7 @@ This project demonstrates a sleek UI with smooth animations, optimized performan
 ## 🛠️ Tech Stack  
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=react,vite,tailwind,js" alt="Tech Stack" width="300"/>
+  <img src="https://skillicons.dev/icons?i=react,vite,tailwind,js,github,netlify" alt="Tech Stack" width="300"/>
   <br/>
   <img src="https://img.shields.io/badge/Animation-FramerMotion-ff69b4?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion"/>
 </p>
