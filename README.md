@@ -63,4 +63,9 @@ agency.ai-landing-page/
    git clone https://github.com/amdadislam01/agency.ai-landing-page.git
    cd agency.ai-landing-page
 
+## Install dependencies
+
+npm install
+
+
 
