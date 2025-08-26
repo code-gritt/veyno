@@ -40,4 +40,27 @@ This project demonstrates a sleek UI with smooth animations, optimized performan
 ---
 
 ## 📂 Project Structure  
+```bash
+agency.ai-landing-page/
+├── public/ # Static assets (images, icons, fonts)
+├── src/
+│ ├── assets/ # Project assets (logo, images)
+│ ├── components/ # Reusable UI components
+│ ├── pages/ # Main sections/pages
+│ ├── App.jsx # Root component
+│ ├── main.jsx # Vite entry file
+│ └── index.css # Global styles (Tailwind imports)
+├── package.json
+├── tailwind.config.js
+└── vite.config.js
+
+---
+
+## ⚙️ Installation & Setup  
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/amdadislam01/agency.ai-landing-page.git
+   cd agency.ai-landing-page
+
 
