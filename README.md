@@ -34,7 +34,7 @@ This project demonstrates a sleek UI with smooth animations, optimized performan
 *(Add a screenshot of your project UI here)*  
 
 <p align="center">
-  <img src="https://i.postimg.cc/YOUR_IMAGE.png" alt="Agency.AI Landing Page Screenshot" width="800"/>
+  <img src="https://ik.imagekit.io/yqnbhdlo4/Img/agency.ai?updatedAt=1756187710084" alt="Agency.AI Landing Page Screenshot" width="1000"/>
 </p>  
 
 ---
