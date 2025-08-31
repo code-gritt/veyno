@@ -1,4 +1,4 @@
-# ⚡ Agency.AI Landing Pag
+# ⚡ Agency.AI Landing Page
 
 A modern, animated, and responsive **AI Agency Landing Page** built with **React (Vite)**, **Tailwind CSS**, and **Framer Motion**.  
 This project demonstrates a sleek UI with smooth animations, optimized performance, and a developer-friendly setup.  
