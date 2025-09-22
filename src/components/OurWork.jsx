@@ -6,21 +6,21 @@ import { motion } from "framer-motion";
 const OurWork = () => {
   const workData = [
     {
-      title: "Mobile app marketing",
+      title: "High-throughput event handling",
       description:
-        "We turn bold ideas into powerful digital solutions that connect...",
+        "See how Veyno powers scalable webhook processing with BullMQ and Redis queues to handle spikes in real-time traffic.",
       image: assets.work_mobile_app,
     },
     {
-      title: "Dashboard management",
+      title: "User dashboard insights",
       description:
-        "We turn bold ideas into powerful digital solutions that connect...",
+        "Interactive dashboards help users monitor webhook activity, credit usage, and logs with GraphQL-backed APIs.",
       image: assets.work_dashboard_management,
     },
     {
-      title: "Fitness app promotion",
+      title: "API-first integrations",
       description:
-        "We turn bold ideas into powerful digital solutions that connect...",
+        "From CRMs to internal tools, Veyno connects payloads to third-party APIs, enabling fully automated workflows.",
       image: assets.work_fitness_app,
     },
   ];
@@ -35,8 +35,8 @@ const OurWork = () => {
       className="flex flex-col items-center gap-7 px-4 sm:px-12 lg:px-24 xl:px-40 pt-30 text-gray-700 dark:text-white"
     >
       <Title
-        title="Our latest work"
-        desc="Browse our portfolio of innovative digital projects that showcase creativity, performance, and results."
+        title="What teams build with Veyno"
+        desc="Explore real-world use cases—from event processing at scale to seamless API integrations—that showcase how Veyno simplifies webhook orchestration."
       />
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-5xl">

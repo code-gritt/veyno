@@ -20,11 +20,32 @@ const Footer = ({ theme }) => {
           viewport={{ once: true }}
           className="space-y-5 text-sm text-gray-700 dark:text-gray-400"
         >
-          <img
-            src={theme === "dark" ? assets.logo_dark : assets.logo}
-            alt=""
-            className="w-32 sm:w-44"
-          />
+          {/* Logo */}
+          <div className="flex items-center gap-3 cursor-pointer">
+            {/* Minimalistic SVG icon */}
+            <svg
+              width="40"
+              height="40"
+              viewBox="0 0 100 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current text-gray-800 dark:text-white"
+            >
+              <circle cx="50" cy="50" r="48" strokeWidth="4" />
+              <path
+                d="M30 55 L45 35 L70 65"
+                strokeWidth="6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            {/* Brand Text */}
+            <span className="text-2xl sm:text-3xl font-bold tracking-wide text-gray-900 dark:text-white">
+              Veyno
+            </span>
+          </div>
+
           <p className="max-w-md">
             From strategy to execution, we craft digital solutions that move
             your business forward.
@@ -56,7 +77,7 @@ const Footer = ({ theme }) => {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 , delay: 0.3}}
+          transition={{ duration: 0.6, delay: 0.3 }}
           viewport={{ once: true }}
           className="text-gray-600 dark:text-gray-400"
         >
@@ -81,15 +102,14 @@ const Footer = ({ theme }) => {
 
       {/* footer bottom */}
       <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4}}
-      viewport={{once: true}}
-      className="pb-6 text-sm text-gray-500 flex justify-center sm:justify-between gap-4 flex-wrap">
-        <p>Copyright 2025 © agency.ai - All Right Reserved.</p>
-        <p>
-          <a href="https://amdadislam.netlify.app/">Developed By Amdad Islam</a>
-        </p>
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        viewport={{ once: true }}
+        className="pb-6 text-sm text-gray-500 flex justify-center sm:justify-between gap-4 flex-wrap"
+      >
+        <p>Copyright 2025 © veyno - All Right Reserved.</p>
+
         <div className="flex items-center justify-between gap-4">
           <img src={assets.facebook_icon} alt="" />
           <img src={assets.twitter_icon} alt="" />
