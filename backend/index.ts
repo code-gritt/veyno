@@ -5,7 +5,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const yoga = createYoga({ schema });
+const yoga = createYoga({
+  schema,
+  cors: {
+    origin: ["http://localhost:5173", "https://veyno.vercel.app"],
+    credentials: true,
+  },
+});
+
 const server = createServer(yoga);
 
 server.listen(4000, () => {
