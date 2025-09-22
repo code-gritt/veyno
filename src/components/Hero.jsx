@@ -54,7 +54,7 @@ const Hero = () => {
         className="relative"
       >
         <img
-          src={assets.hero_img}
+          src={assets.bgImage21}
           alt=""
           className="w-full max-w-6xl relative z-10"
         />
