@@ -9,38 +9,34 @@ import jwt from "jsonwebtoken";
 dotenv.config();
 
 const app = express();
+app.use(express.json({ limit: "1mb" })); // Limit payload size
 
-// Parse JSON with 1MB limit
-app.use(express.json({ limit: "1mb" }));
-
-// ----------------------
-// Webhook Endpoint
-// ----------------------
+// Webhook endpoint handler
 app.post("/webhooks/:userId/:uniqueId", async (req: Request, res: Response) => {
   const { userId, uniqueId } = req.params;
   const payload = req.body;
 
   try {
-    // Check if webhook exists and is active
+    // Verify webhook exists and is active
     const { rows } = await pool.query(
       "SELECT id FROM webhooks WHERE user_id = $1 AND unique_id = $2 AND status = 'ACTIVE'",
       [userId, uniqueId]
     );
-    if (!rows[0]) {
-      return res.status(404).json({ error: "Webhook not found" });
-    }
+    if (!rows[0]) return res.status(404).json({ error: "Webhook not found" });
 
-    const webhookId = rows[0].id;
-
-    // Log event in database
+    // Log event in DB
     const { rows: eventRows } = await pool.query(
       "INSERT INTO webhook_events (webhook_id, user_id, payload) VALUES ($1, $2, $3) RETURNING id",
-      [webhookId, userId, JSON.stringify(payload)]
+      [rows[0].id, userId, JSON.stringify(payload)]
     );
     const eventId = eventRows[0].id;
 
-    // Add job to BullMQ queue
-    await webhookQueue.add("process", { webhookId, payload, eventId });
+    // Queue event for processing
+    await webhookQueue.add("process", {
+      webhookId: rows[0].id,
+      payload,
+      eventId,
+    });
 
     return res.status(202).json({ message: "Event queued", eventId });
   } catch (err) {
@@ -49,9 +45,7 @@ app.post("/webhooks/:userId/:uniqueId", async (req: Request, res: Response) => {
   }
 });
 
-// ----------------------
-// GraphQL Yoga Setup
-// ----------------------
+// GraphQL Yoga setup with JWT context
 const yoga = createYoga({
   schema,
   cors: {
@@ -68,13 +62,13 @@ const yoga = createYoga({
       try {
         const decoded: any = jwt.verify(
           token,
-          "0ab11ca0c2b51e5c33676b50aaf92b32fbe56ef69ff73944db9d3bb833af4580" ||
-            "secret"
+          process.env.JWT_SECRET ||
+            "0ab11ca0c2b51e5c33676b50aaf92b32fbe56ef69ff73944db9d3bb833af4580"
         );
         userId = decoded.userId;
         role = decoded.role;
       } catch (err) {
-        console.warn("Invalid JWT token:");
+        console.error("Invalid JWT token", err);
       }
     }
 
@@ -82,15 +76,12 @@ const yoga = createYoga({
   },
 });
 
-// Mount GraphQL endpoint
+// Mount Yoga at /graphql
 app.use("/graphql", yoga);
 
-// ----------------------
-// Start HTTP Server
-// ----------------------
-const server = createServer(app);
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 4000;
 
+const server = createServer(app);
 server.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}/graphql`);
   console.log("🔗 Webhook endpoints active at /webhooks/:userId/:uniqueId");
