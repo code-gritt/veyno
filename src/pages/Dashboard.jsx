@@ -8,26 +8,9 @@ import {
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
-const getInitialTheme = () => {
-  const saved = localStorage.getItem("theme");
-  if (saved === "dark" || saved === "light") return saved;
-  if (typeof window !== "undefined") {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  }
-  return "light";
-};
+import Loader from "../components/Loader";
 
 const Dashboard = () => {
-  const [theme, setTheme] = useState(getInitialTheme);
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
   const { user, webhooks, fetchWebhooks, loading, error } = useQueryStore();
 
   useEffect(() => {
@@ -36,14 +19,13 @@ const Dashboard = () => {
     }
   }, [user, fetchWebhooks]);
 
-  const getInitials = (username) => {
-    return username
+  const getInitials = (username) =>
+    username
       .split(" ")
       .map((word) => word[0])
       .join("")
       .toUpperCase()
       .slice(0, 2);
-  };
 
   const parseActionsSummary = (actionsJson) => {
     try {
@@ -117,7 +99,8 @@ const Dashboard = () => {
 
   return (
     <>
-      <Navbar theme={theme} setTheme={setTheme} />
+      <Navbar />
+      {loading && <Loader />}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -130,51 +113,47 @@ const Dashboard = () => {
           analytics.
         </p>
         {error && <p className="text-red-500">{error}</p>}
-        {loading ? (
-          <p>Loading webhooks...</p>
-        ) : (
-          <div className="w-full max-w-6xl overflow-x-auto">
-            <table className="min-w-full border-collapse">
-              <thead>
-                {table.getHeaderGroups().map((headerGroup) => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map((header) => (
-                      <th
-                        key={header.id}
-                        className="border-b p-2 text-left font-medium"
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {table.getRowModel().rows.map((row) => (
-                  <tr
-                    key={row.id}
-                    className="border-b hover:bg-gray-100 dark:hover:bg-gray-800"
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="p-2">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {webhooks.length === 0 && (
-              <p className="text-center mt-4">No webhooks yet.</p>
-            )}
-          </div>
-        )}
+        <div className="w-full max-w-6xl overflow-x-auto">
+          <table className="min-w-full border-collapse">
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      className="border-b p-2 text-left font-medium"
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr
+                  key={row.id}
+                  className="border-b hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id} className="p-2">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {webhooks.length === 0 && (
+            <p className="text-center mt-4">No webhooks yet.</p>
+          )}
+        </div>
       </motion.div>
     </>
   );
