@@ -7,8 +7,9 @@ import {
 } from "@tanstack/react-table";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
-const Dashboard = () => {
+const Dashboard = ({ theme, setTheme }) => {
   const { user, webhooks, fetchWebhooks, loading, error } = useQueryStore();
 
   useEffect(() => {
@@ -97,63 +98,67 @@ const Dashboard = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="flex flex-col items-center gap-6 py-20 px-4 sm:px-12 lg:px-24 xl:px-40 w-full text-gray-700 dark:text-white bg-white dark:bg-gray-900"
-    >
-      <h1 className="text-3xl sm:text-4xl font-medium">Veyno Dashboard</h1>
-      <p className="text-sm sm:text-base text-gray-500 dark:text-white/75 max-w-md text-center">
-        Your credits: {user.credits} | Manage your webhooks and view analytics.
-      </p>
-      {error && <p className="text-red-500">{error}</p>}
-      {loading ? (
-        <p>Loading webhooks...</p>
-      ) : (
-        <div className="w-full max-w-6xl overflow-x-auto">
-          <table className="min-w-full border-collapse">
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      className="border-b p-2 text-left font-medium"
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr
-                  key={row.id}
-                  className="border-b hover:bg-gray-100 dark:hover:bg-gray-800"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="p-2">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {webhooks.length === 0 && (
-            <p className="text-center mt-4">No webhooks yet.</p>
-          )}
-        </div>
-      )}
-    </motion.div>
+    <>
+      <Navbar theme={theme} setTheme={setTheme} />
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="flex flex-col items-center gap-6 py-20 px-4 sm:px-12 lg:px-24 xl:px-40 w-full text-gray-700 dark:text-white bg-white dark:bg-gray-900"
+      >
+        <h1 className="text-3xl sm:text-4xl font-medium">Veyno Dashboard</h1>
+        <p className="text-sm sm:text-base text-gray-500 dark:text-white/75 max-w-md text-center">
+          Your credits: {user.credits} | Manage your webhooks and view
+          analytics.
+        </p>
+        {error && <p className="text-red-500">{error}</p>}
+        {loading ? (
+          <p>Loading webhooks...</p>
+        ) : (
+          <div className="w-full max-w-6xl overflow-x-auto">
+            <table className="min-w-full border-collapse">
+              <thead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="border-b p-2 text-left font-medium"
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    className="border-b hover:bg-gray-100 dark:hover:bg-gray-800"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="p-2">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {webhooks.length === 0 && (
+              <p className="text-center mt-4">No webhooks yet.</p>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </>
   );
 };
 

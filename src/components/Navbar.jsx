@@ -28,27 +28,29 @@ const Navbar = ({ theme, setTheme }) => {
       className="flex justify-between items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium bg-white/50 dark:bg-gray-900/70"
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 cursor-pointer">
-        <svg
-          width="40"
-          height="40"
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="stroke-current text-gray-800 dark:text-white"
-        >
-          <circle cx="50" cy="50" r="48" strokeWidth="4" />
-          <path
-            d="M30 55 L45 35 L70 65"
-            strokeWidth="6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span className="text-2xl sm:text-3xl font-bold tracking-wide text-gray-900 dark:text-white">
-          Veyno
-        </span>
-      </div>
+      <Link to="/">
+        <div className="flex items-center gap-3 cursor-pointer">
+          <svg
+            width="40"
+            height="40"
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="stroke-current text-gray-800 dark:text-white"
+          >
+            <circle cx="50" cy="50" r="48" strokeWidth="4" />
+            <path
+              d="M30 55 L45 35 L70 65"
+              strokeWidth="6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className="text-2xl sm:text-3xl font-bold tracking-wide text-gray-900 dark:text-white">
+            Veyno
+          </span>
+        </div>
+      </Link>
 
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-5">
@@ -64,17 +66,15 @@ const Navbar = ({ theme, setTheme }) => {
         <a href="#contact-us" className="hover:border-b">
           Contact Us
         </a>
-        {user && (
-          <Link to="/dashboard" className="hover:border-b">
-            Dashboard
-          </Link>
-        )}
       </div>
 
       {/* Right Controls */}
       <div className="flex items-center gap-2 sm:gap-4">
         {user ? (
           <div className="flex items-center gap-2">
+            <Link to="/dashboard" className="hover:border-b">
+              Dashboard
+            </Link>
             <span className="text-sm font-medium text-gray-700 dark:text-white">
               {user.credits} Credits
             </span>
