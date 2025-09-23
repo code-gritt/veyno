@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQueryStore } from "../stores/queries";
+import { useMutationStore } from "../stores/mutations";
 import {
   flexRender,
   getCoreRowModel,
@@ -12,6 +13,10 @@ import Loader from "../components/Loader";
 
 const Dashboard = () => {
   const { user, webhooks, fetchWebhooks, loading, error } = useQueryStore();
+  const { createWebhook, deleteWebhook } = useMutationStore();
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [formData, setFormData] = useState({ actions: [], costPerEvent: 1 });
 
   useEffect(() => {
     if (user) {
@@ -34,6 +39,12 @@ const Dashboard = () => {
     } catch {
       return "Unknown actions";
     }
+  };
+
+  const handleCreate = async () => {
+    await createWebhook(formData);
+    setShowCreateModal(false);
+    setFormData({ actions: [], costPerEvent: 1 });
   };
 
   const columns = [
@@ -64,8 +75,20 @@ const Dashboard = () => {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <button className="text-sm text-primary hover:underline">Edit</button>
-          <button className="text-sm text-red-500 hover:underline">
+          <button
+            className="text-sm text-primary hover:underline"
+            onClick={() => alert("Edit modal not implemented")}
+          >
+            Edit
+          </button>
+          <button
+            className="text-sm text-red-500 hover:underline"
+            onClick={async () => {
+              if (confirm("Delete webhook?")) {
+                await deleteWebhook(row.original.id);
+              }
+            }}
+          >
             Delete
           </button>
         </div>
@@ -113,6 +136,14 @@ const Dashboard = () => {
           analytics.
         </p>
         {error && <p className="text-red-500">{error}</p>}
+
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="bg-primary text-white px-4 py-2 rounded-full mb-4"
+        >
+          Create Webhook
+        </button>
+
         <div className="w-full max-w-6xl overflow-x-auto">
           <table className="min-w-full border-collapse">
             <thead>
@@ -155,6 +186,46 @@ const Dashboard = () => {
           )}
         </div>
       </motion.div>
+
+      {/* Create Webhook Modal */}
+      {showCreateModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+        >
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-lg max-w-md w-full mx-4">
+            <h2 className="text-xl mb-4">Create Webhook</h2>
+            <div className="space-y-4">
+              <input
+                type="number"
+                placeholder="Cost per Event"
+                value={formData.costPerEvent}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    costPerEvent: Number(e.target.value),
+                  })
+                }
+                className="w-full border rounded px-2 py-1"
+              />
+              {/* TODO: Add dynamic action inputs */}
+              <button
+                onClick={handleCreate}
+                className="bg-primary text-white px-4 py-2 rounded"
+              >
+                Create
+              </button>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-gray-500"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </>
   );
 };

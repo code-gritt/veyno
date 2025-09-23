@@ -14,6 +14,14 @@ BEGIN
     END IF;
 END$$;
 
+-- Create webhook_event_status enum if it doesn't exist
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'webhook_event_status') THEN
+        CREATE TYPE webhook_event_status AS ENUM ('PENDING', 'SUCCESS', 'FAILED', 'REJECTED');
+    END IF;
+END$$;
+
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -34,4 +42,15 @@ CREATE TABLE IF NOT EXISTS webhooks (
     cost_per_event INTEGER DEFAULT 1 NOT NULL,
     status webhook_status DEFAULT 'ACTIVE' NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Webhook events table
+CREATE TABLE IF NOT EXISTS webhook_events (
+    id SERIAL PRIMARY KEY,
+    webhook_id INTEGER REFERENCES webhooks(id) ON DELETE CASCADE NOT NULL,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    payload JSONB NOT NULL,
+    status webhook_event_status DEFAULT 'PENDING' NOT NULL,
+    processed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    error_message TEXT
 );
