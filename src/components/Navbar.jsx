@@ -2,9 +2,23 @@ import React, { useState } from "react";
 import assets from "../assets/assets";
 import ThemeToggleBtn from "./ThemeToggleBtn";
 import { motion, AnimatePresence } from "framer-motion";
+import { useQueryStore } from "../stores/queries";
+import { useMutationStore } from "../stores/mutations";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ theme, setTheme }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user } = useQueryStore();
+  const { logout } = useMutationStore();
+
+  const getInitials = (username) => {
+    return username
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <motion.div
@@ -38,9 +52,9 @@ const Navbar = ({ theme, setTheme }) => {
 
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-5">
-        <a href="#" className="hover:border-b">
+        <Link to="/" className="hover:border-b">
           Home
-        </a>
+        </Link>
         <a href="#services" className="hover:border-b">
           Services
         </a>
@@ -50,27 +64,53 @@ const Navbar = ({ theme, setTheme }) => {
         <a href="#contact-us" className="hover:border-b">
           Contact Us
         </a>
+        {user && (
+          <Link to="/dashboard" className="hover:border-b">
+            Dashboard
+          </Link>
+        )}
       </div>
 
       {/* Right Controls */}
       <div className="flex items-center gap-2 sm:gap-4">
+        {user ? (
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium text-gray-700 dark:text-white">
+              {user.credits} Credits
+            </span>
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary text-white font-semibold">
+              {getInitials(user.username)}
+            </div>
+            <button
+              onClick={() => logout()}
+              className="text-sm text-gray-700 dark:text-white hover:underline"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="text-sm text-gray-700 dark:text-white hover:underline"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="text-sm bg-primary text-white px-4 py-1.5 rounded-full hover:scale-105 transition-transform"
+            >
+              Register
+            </Link>
+          </>
+        )}
         <ThemeToggleBtn theme={theme} setTheme={setTheme} />
-
-        {/* Mobile Menu Button */}
         <img
           src={theme === "dark" ? assets.menu_icon_dark : assets.menu_icon}
           alt="menu"
           onClick={() => setSidebarOpen(true)}
           className="w-8 sm:hidden cursor-pointer"
         />
-
-        {/* Contact Button (desktop only) */}
-        <a
-          href="#contact-us"
-          className="text-sm hidden sm:flex items-center gap-2 bg-primary text-white px-6 py-2 rounded-full cursor-pointer hover:scale-105 transition-transform"
-        >
-          Contact <img src={assets.arrow_icon} width={14} alt="arrow" />
-        </a>
       </div>
 
       {/* Mobile Sidebar */}
@@ -81,24 +121,21 @@ const Navbar = ({ theme, setTheme }) => {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="fixed top-0 right-0 w-64 h-full bg-primary text-white z-999 flex flex-col pt-20 px-6 gap-6 shadow-lg"
+            className="fixed top-0 right-0 w-64 h-full bg-primary text-white z-50 flex flex-col pt-20 px-6 gap-6 shadow-lg"
           >
-            {/* Close Button */}
             <img
               src={assets.close_icon}
               alt="close"
               className="w-6 self-end cursor-pointer"
               onClick={() => setSidebarOpen(false)}
             />
-
-            {/* Links */}
-            <a
-              href="#"
+            <Link
+              to="/"
               onClick={() => setSidebarOpen(false)}
               className="text-lg font-medium hover:underline"
             >
               Home
-            </a>
+            </Link>
             <a
               href="#services"
               onClick={() => setSidebarOpen(false)}
@@ -120,6 +157,43 @@ const Navbar = ({ theme, setTheme }) => {
             >
               Contact Us
             </a>
+            {user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-lg font-medium hover:underline"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    logout();
+                    setSidebarOpen(false);
+                  }}
+                  className="text-lg font-medium hover:underline"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-lg font-medium hover:underline"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setSidebarOpen(false)}
+                  className="text-lg font-medium hover:underline"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
